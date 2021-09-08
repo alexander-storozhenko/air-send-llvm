@@ -1,0 +1,13 @@
+name: air-send-client
+version: 0.1.0
+
+authors:
+  - storozhenko <storozhenko@sibext.com>
+
+targets:
+  air-send-client:
+    main: src/air-send-client.cr
+
+crystal: 1.1.1
+
+license: MIT
