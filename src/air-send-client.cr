@@ -1,9 +1,9 @@
-require "./messages"
+require "dotenv"
+require "./requesters/message"
 
 module Air::Send::Client
-  VERSION = "0.1.0"
+    VERSION = "0.1.0"
+    Dotenv.load(path: ".env")
 
-  def init
     puts "air-send v#{VERSION} (-signin, -signup, -help)"
-  end
 end

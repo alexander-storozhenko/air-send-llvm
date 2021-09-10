@@ -8,6 +8,10 @@ targets:
   air-send-client:
     main: src/air-send-client.cr
 
+dependencies:
+  dotenv:
+    github: drum445/dotenv
+    
 crystal: 1.1.1
 
 license: MIT
