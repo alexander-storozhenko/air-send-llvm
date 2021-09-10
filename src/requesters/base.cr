@@ -9,7 +9,7 @@ module Requester
         end
 
         def api_post(path, body = nil, version = "v1")
-            with_catch_error(http_api_post!(base_url, path, body.to_s, version))
+            with_catch_error(http_api_post!(base_url, path, body[:files], body[:texts], version))
         end
 
         private macro with_catch_error(method)
