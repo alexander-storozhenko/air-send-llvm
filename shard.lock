@@ -4,3 +4,11 @@ shards:
     git: https://github.com/drum445/dotenv.git
     version: 0.3.0
 
+  prop:
+    git: https://github.com/nicolab/crystal-prop.git
+    version: 0.7.1
+
+  validator:
+    git: https://github.com/nicolab/crystal-validator.git
+    version: 1.11.0
+

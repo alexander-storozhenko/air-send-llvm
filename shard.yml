@@ -11,7 +11,9 @@ targets:
 dependencies:
   dotenv:
     github: drum445/dotenv
-    
+  validator:
+    github: nicolab/crystal-validator
+
 crystal: 1.1.1
 
 license: MIT

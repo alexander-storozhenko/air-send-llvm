@@ -1,20 +1,24 @@
 require "http"
-require "http/client"
+require "json"
 
 module RequestHelper
     def http_api_get!(base, path, version)
         HTTP::Client.get(build_api_endpoint(base, path, version))
     end
 
-    def http_api_post!(base, path, files, texts,version)
-        send_form_data(build_api_endpoint(base, path, version), files, texts)
+    def http_api_post!(base, path, files, texts, version)
+        send_form_data!(build_api_endpoint(base, path, version), files, texts)
+    end
+
+    def response_success?(response)
+        response[:code] >= 200 && response[:code] < 300
     end
 
     private def build_api_endpoint(base, path, version)
         "#{base}/api/#{version}/#{path}"
     end
 
-    private def send_form_data(url, file_fields, text_fields)
+    private def send_form_data!(url, file_fields, text_fields)
         IO.pipe do |reader, writer|
             channel = Channel(String).new(1)
 
@@ -23,8 +27,6 @@ module RequestHelper
                     channel.send(formdata.content_type)
                     
                     text_fields.each do |key, value|
-                        puts key.to_s
-                        puts value
                         formdata.field(key.to_s, value.to_s)
                     end
                    
@@ -40,13 +42,15 @@ module RequestHelper
             
             headers = HTTP::Headers{"Content-Type" => channel.receive}     
             response = HTTP::Client.post(url, body: reader, headers: headers)
+
+            {content: JSON.parse(response.body.lines.first), code: response.status_code}
        end
     end
 
-    private def open_form_file(formdata,name, path)
+    private def open_form_file(formdata, name, path)
         file = File.open(path) 
         metadata = HTTP::FormData::FileMetadata.new(filename: name)
-        headers = HTTP::Headers{"Content-Type" =>"image/png"}
+        headers = HTTP::Headers{"Content-Type" =>"multipart/form-data"}
 
         {file: file, metadata: metadata, headers: headers}
     end
