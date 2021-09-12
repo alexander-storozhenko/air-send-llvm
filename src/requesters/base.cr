@@ -13,6 +13,12 @@ module Requester
             with_catch_error(http_api_post!(base_url, path, body[:files], body[:texts], version))
         end
 
+        macro return_response(response, klass, params)
+            return Response::Error.new(status_code = response[:code], error = response[:content]["error"].to_s) if response[:code] >= 400
+
+            {{klass}}.new({{params}}, status_code = response[:code])
+        end
+
         protected def build_subpath(root, subpath)
             "#{root}/#{subpath}"
         end
@@ -32,7 +38,5 @@ module Requester
                 { content: "Connection error!", code: 400 }
             end
         end
-
-        
     end
 end

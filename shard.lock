@@ -1,5 +1,9 @@
 version: 2.0
 shards:
+  db:
+    git: https://github.com/crystal-lang/crystal-db.git
+    version: 0.10.1
+
   dotenv:
     git: https://github.com/drum445/dotenv.git
     version: 0.3.0
@@ -7,6 +11,10 @@ shards:
   prop:
     git: https://github.com/nicolab/crystal-prop.git
     version: 0.7.1
+
+  sqlite3:
+    git: https://github.com/crystal-lang/crystal-sqlite3.git
+    version: 0.18.0
 
   validator:
     git: https://github.com/nicolab/crystal-validator.git

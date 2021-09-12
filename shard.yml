@@ -13,7 +13,8 @@ dependencies:
     github: drum445/dotenv
   validator:
     github: nicolab/crystal-validator
-
+  sqlite3:
+    github: crystal-lang/crystal-sqlite3
 crystal: 1.1.1
 
 license: MIT

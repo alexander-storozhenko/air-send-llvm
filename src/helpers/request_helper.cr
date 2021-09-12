@@ -11,7 +11,11 @@ module RequestHelper
     end
 
     def response_success?(response)
-        response[:code] >= 200 && response[:code] < 300
+        return response.class != Response::Error
+    end
+
+    macro response_default_fileds
+        property status_code
     end
 
     private def build_api_endpoint(base, path, version)
@@ -50,7 +54,7 @@ module RequestHelper
     private def open_form_file(formdata, name, path)
         file = File.open(path) 
         metadata = HTTP::FormData::FileMetadata.new(filename: name)
-        headers = HTTP::Headers{"Content-Type" =>"multipart/form-data"}
+        headers = HTTP::Headers{"Content-Type" => "multipart/form-data"}
 
         {file: file, metadata: metadata, headers: headers}
     end

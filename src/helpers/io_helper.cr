@@ -20,12 +20,12 @@ module IOHelper
         format_print(error_color(string), new_line)
     end
 
-    private def exit_success(string)
+    def exit_success(string)
         output_success(string, true)
         exit
     end
 
-    private def exit_error(string)
+    def exit_error(string)
         output_error(string, true)
         exit
     end

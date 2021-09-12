@@ -1,8 +1,9 @@
 require "dotenv"
 require "./requesters/message"
 require "./requesters/user"
-
 require "./options/parser"
+require "./store"
+require "./commands/parser"
 
 module AirSend::Client
     VERSION = "0.1.0"
@@ -10,5 +11,8 @@ module AirSend::Client
 
     puts "air-send v#{VERSION} (-signin, -signup, -help)"
     
-    Option::Parser.new.parse
+    Commands::Parser.new.start_loop
+    # Option::Parser.new.parse
+    # p Store.instance.add({"a" => 1})
+
 end
