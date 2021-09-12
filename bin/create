@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+name = ARGV.first&.downcase
+
+root = "./src"
+
+entries = {
+    commands: "module Commands\n\tclass #{name.capitalize}\n\tend\nend",
+    logic: "module Logic\n\tclass #{name.capitalize}\n\tend\nend",
+    requester: "require \"./base_requester\"\n\nmodule Requester\n\tclass #{name.capitalize}\n\tend\nend",
+}
+
+entries.each do |k, v|
+    File.open("#{root}/#{(key_s = k.to_s)[-1] == 's' ? key_s : "#{key_s}s"}/#{name}_#{key_s}.cr", "w") {|f| f.puts v}
+end
