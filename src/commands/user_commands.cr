@@ -3,7 +3,7 @@ require "../logics/user_logic"
 module Commands
     class User
         # TODO: subcommands support
-        def parse_all(string)
+        def parse(string)
             case string
             when "-in", "--signin"
                 Logic::User.new.signin

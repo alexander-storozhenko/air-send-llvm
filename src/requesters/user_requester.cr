@@ -1,4 +1,4 @@
-require "./base"
+require "./base_requester"
 require "./responses/user_response"
 require "./responses/error_response"
 

@@ -1,6 +1,6 @@
 require "../helpers/logic_helper"
 require "../helpers/io_helper"
-require "../requesters/user"
+require "../requesters/user_requester"
 require "../requesters/responses/user_response"
 require "../exceptions/validate_params_exception"
 require "../store"

@@ -1,22 +1,23 @@
 require "./user_commands"
+require "./content_commands"
 
 module Commands
     class Parser
         private property user_commands
+        private property content_commands
 
         def initialize
-            @user_commands = User.new     
+            @user_commands = User.new
+            @content_commands = Content.new
         end
 
         def start_loop
-            loop do
-                string = gets || ""
-                parse(string.chomp)
-            end
+            loop { parse((gets || "").chomp) }
         end
         
-        def parse(string : String)
-            return_found(@user_commands.parse_all(string))
+        private def parse(string : String)
+            return_found(@user_commands.parse(string))
+            return_found(@content_commands.parse(string))
         end
 
         private macro return_found(method)
