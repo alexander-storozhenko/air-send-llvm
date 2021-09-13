@@ -26,6 +26,7 @@ module Logic
                 password = input
 
                 @response = Requester::User.new.signin({texts: {email: email, password: password}})
+                
                 output_result(@response, "You are signed in!")
             end
 
@@ -43,6 +44,7 @@ module Logic
                 password = input
 
                 @response = Requester::User.new.signup({texts: {email: email, password: password}})
+
                 output_result(@response, "You are signed up!")
 
             rescue err : ValidateParamsException 

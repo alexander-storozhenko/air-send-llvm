@@ -1,15 +1,30 @@
 #!/usr/bin/env ruby
 
 name = ARGV.first&.downcase
+name_cap = name.capitalize
 
 root = "./src"
 
-entries = {
-    commands: "module Commands\n\tclass #{name.capitalize}\n\tend\nend",
-    logic: "module Logic\n\tclass #{name.capitalize}\n\tend\nend",
-    requester: "require \"./base_requester\"\n\nmodule Requester\n\tclass #{name.capitalize}\n\tend\nend",
+contents = {
+    commands: "require \"../logics/#{name}_logic\"\nmodule Commands\n\tclass #{name_cap}\n\tend\nend",
+    logic: "module Logic\n\tclass #{name_cap}\n\tend\nend",
+    requester: "require \"./base_requester\"\n\nmodule Requester\n\tclass #{name_cap}\n\tend\nend",
 }
 
-entries.each do |k, v|
-    File.open("#{root}/#{(key_s = k.to_s)[-1] == 's' ? key_s : "#{key_s}s"}/#{name}_#{key_s}.cr", "w") {|f| f.puts v}
+contents.each do |k, v|
+    File.open("#{root}/#{(k_s = k.to_s)[-1].eql?('s') ? k_s : "#{k_s}s"}/#{name}_#{k_s}.cr", 'w') { |f| f.puts v }
 end
+
+# ---- Commands -----
+
+def insert_content(file_path, target, content)
+    array = File.read(file_path).split("\n")
+    index = array.index{ |x| x.strip.chomp == target }
+    array.insert(index + 1, content)
+
+    File.open(file_path, 'w') { |f| f.puts array.join("\n") }
+end
+
+insert_content("#{root}/commands/parser.cr", 'private def parse(string : String)', "#{"\t" * 3}return_found(@#{name}_commands.as(#{name_cap}).parse(string))")
+insert_content("#{root}/commands/props.cr", 'module Props', "#{"\t" * 2}property #{name}_commands : #{name_cap} | Nil")
+

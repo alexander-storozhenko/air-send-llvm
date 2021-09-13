@@ -19,6 +19,12 @@ module Requester
             {{klass}}.new({{params}}, status_code = response[:code])
         end
 
+        macro return_response(response, klass)
+            return Response::Error.new(status_code = response[:code], error = response[:content]["error"].to_s) if response[:code] >= 400
+
+            {{klass}}.new(status_code = response[:code])
+        end
+
         protected def build_subpath(root, subpath)
             "#{root}/#{subpath}"
         end

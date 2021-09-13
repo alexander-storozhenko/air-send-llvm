@@ -51,15 +51,15 @@ module IOHelper
 
     # --------- COLORS ---------
 
-    private def error_color(string)
+    private macro error_color(string)
         "#{ERROR_COLOR}#{string}#{DEFAULT_COLOR}"
     end
 
-    private def usual_color(string)
+    private macro usual_color(string)
         "#{DEFAULT_COLOR}#{string}#{DEFAULT_COLOR}"
     end
 
-    private def success_color(string)
+    private macro success_color(string)
         "#{PRIMARY_COLOR}#{string}#{DEFAULT_COLOR}"
     end
 end

@@ -1,14 +1,16 @@
 require "./user_commands"
 require "./content_commands"
+require "./props"
+require "../helpers/commands_helper"
 
 module Commands
     class Parser
-        private property user_commands
-        private property content_commands
+        include Props
+        include CommandsHelper
 
         def initialize
             @user_commands = User.new
-            @content_commands = Content.new
+            @content_commands =  Content.new
         end
 
         def start_loop
@@ -16,13 +18,8 @@ module Commands
         end
         
         private def parse(string : String)
-            return_found(@user_commands.parse(string))
-            return_found(@content_commands.parse(string))
-        end
-
-        private macro return_found(method)
-            result = {{method}}
-            return result if result
+            return_found(@user_commands.as(User).parse(string))
+            return_found(@content_commands.as(Content).parse(string))
         end
     end
 end
