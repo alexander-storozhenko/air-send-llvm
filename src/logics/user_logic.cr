@@ -7,7 +7,6 @@ require "../store"
 
 module Logic
     class User
-        include LogicHelper
         include IOHelper
         include RequestHelper
 

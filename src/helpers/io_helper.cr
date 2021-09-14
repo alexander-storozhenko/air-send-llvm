@@ -30,6 +30,10 @@ module IOHelper
         exit
     end
 
+    def get_file_name(file_path)
+		file_path.split("/")[-1]
+	end
+
     macro output_error_with_retry(string)
         output(error_color(error_format({{string}})), true)
         next

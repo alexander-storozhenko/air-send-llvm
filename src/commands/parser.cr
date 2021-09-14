@@ -10,7 +10,7 @@ module Commands
 
         def initialize
             @user_commands = User.new
-            @content_commands =  Content.new
+            @content_commands = Content.new
         end
 
         def start_loop

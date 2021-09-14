@@ -3,7 +3,10 @@ require "json"
 
 module RequestHelper
     def http_api_get!(base, path, version)
-        HTTP::Client.get(build_api_endpoint(base, path, version))
+        p build_api_endpoint(base, path, version)
+        response = HTTP::Client.get(build_api_endpoint(base, path, version))
+        p response
+        {content: JSON.parse(response.body.lines.first), code: response.status_code}
     end
 
     def http_api_post!(base, path, files, texts, version)
@@ -52,8 +55,8 @@ module RequestHelper
     end
 
     private def open_form_file(formdata, name, path)
-        file = File.open(path) 
-        metadata = HTTP::FormData::FileMetadata.new(filename: name)
+        file = File.open(path)
+        metadata = HTTP::FormData::FileMetadata.new(filename: "test.txt")
         headers = HTTP::Headers{"Content-Type" => "multipart/form-data"}
 
         {file: file, metadata: metadata, headers: headers}

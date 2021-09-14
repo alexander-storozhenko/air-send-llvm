@@ -10,5 +10,11 @@ module Requester
 
             return_response(response, Response::Success)
 		end
+
+		def all_in_folder(folder_name)
+			response = api_get(build_subpath(root, "all_in_folder/#{folder_name}"))
+			p response
+			return_response(response, Response::Success)
+		end
 	end
 end
