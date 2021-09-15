@@ -1,5 +1,6 @@
 require "../logics/content_logic"
 require "../helpers/commands_helper"
+require "../store"
 
 module Commands
 	class Content
@@ -10,13 +11,20 @@ module Commands
         end
 
         private def parse_with_options(string)
-            raise "Suboption not exists!" if (cmd = find_with_option(string)) == nil   
-           
-            case cmd.as(NamedTuple)[:option]
-            when "-send"
-                Logic::Content.new.send(cmd.as(NamedTuple)[:sub])
-            when "-allf"
-                Logic::Content.new.all_in_folder(cmd.as(NamedTuple)[:sub])
+            option = first_main_option(string)
+            option_with_sub = first_main_option_raw(string)
+
+            case option
+            when "send"
+                raise "Must be path to file!" if !has_suboption?(option_with_sub)
+                sub = first_suboption(option_with_sub)
+
+                Logic::Content.new.send(sub)
+            when "allf"
+                raise "Must be file name!" if !has_suboption?(option_with_sub)
+                sub = first_suboption(option_with_sub)
+
+                Logic::Content.new.all_in_folder(sub)
             end
         end
 	end

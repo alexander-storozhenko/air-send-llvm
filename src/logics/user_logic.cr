@@ -25,7 +25,7 @@ module Logic
                 password = input
 
                 @response = Requester::User.new.signin({texts: {email: email, password: password}})
-                
+            
                 output_result(@response, "You are signed in!")
             end
 

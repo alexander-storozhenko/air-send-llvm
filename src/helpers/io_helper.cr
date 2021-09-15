@@ -8,6 +8,12 @@ module IOHelper
         get_string.chomp
     end
 
+    def input_cmd
+        output("> ", false)
+        get_string.chomp
+    end
+
+
     def output(string, new_line = false)
         format_print(usual_color(string), new_line)
     end

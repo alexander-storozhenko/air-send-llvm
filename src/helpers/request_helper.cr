@@ -3,14 +3,12 @@ require "json"
 
 module RequestHelper
     def http_api_get!(base, path, version)
-        p build_api_endpoint(base, path, version)
         response = HTTP::Client.get(build_api_endpoint(base, path, version))
-        p response
         {content: JSON.parse(response.body.lines.first), code: response.status_code}
     end
 
-    def http_api_post!(base, path, files, texts, version)
-        send_form_data!(build_api_endpoint(base, path, version), files, texts)
+    def http_api_post!(base, path, files, texts, headers, version)
+        send_form_data!(build_api_endpoint(base, path, version), files, texts, headers)
     end
 
     def response_success?(response)
@@ -25,7 +23,8 @@ module RequestHelper
         "#{base}/api/#{version}/#{path}"
     end
 
-    private def send_form_data!(url, file_fields, text_fields)
+
+    private def send_form_data!(url, file_fields, text_fields, headers)
         IO.pipe do |reader, writer|
             channel = Channel(String).new(1)
 
@@ -47,11 +46,18 @@ module RequestHelper
                 writer.close
             end
             
-            headers = HTTP::Headers{"Content-Type" => channel.receive}     
-            response = HTTP::Client.post(url, body: reader, headers: headers)
+            builded_headers = build_headers(headers.merge({"Content-Type" => channel.receive}))
+            response = HTTP::Client.post(url, body: reader, headers: builded_headers)
 
             {content: JSON.parse(response.body.lines.first), code: response.status_code}
        end
+    end
+
+    private def build_headers(headers)
+        header_object = HTTP::Headers.new
+        headers.each {|k,v| header_object.add(k.as(String), v.as(String))}
+   
+        header_object
     end
 
     private def open_form_file(formdata, name, path)

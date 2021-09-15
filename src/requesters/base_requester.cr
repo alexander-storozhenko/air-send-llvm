@@ -8,9 +8,9 @@ module Requester
            with_catch_error(http_api_get!(base_url, path, version))
         end
 
-        def api_post(path, body = {} of String => String, version = "v1")
+        def api_post(path, body = {} of String => String, headers = {} of String => String, version = "v1")
             body = {files: {} of String => String, texts: {} of String => String}.merge(body)
-            with_catch_error(http_api_post!(base_url, path, body[:files], body[:texts], version))
+            with_catch_error(http_api_post!(base_url, path, body[:files], body[:texts], headers, version))
         end
 
         macro return_response(response, klass, params)
