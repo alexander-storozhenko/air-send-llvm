@@ -2,8 +2,9 @@ require "http"
 require "json"
 
 module RequestHelper
-    def http_api_get!(base, path, version)
-        response = HTTP::Client.get(build_api_endpoint(base, path, version))
+    def http_api_get!(base, path, headers, version)
+        builded_headers = build_headers(headers)
+        response = HTTP::Client.get(build_api_endpoint(base, path, version), headers: builded_headers)
         {content: JSON.parse(response.body.lines.first), code: response.status_code}
     end
 

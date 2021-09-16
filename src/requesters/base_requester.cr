@@ -4,8 +4,8 @@ module Requester
     class Base
         include RequestHelper
     
-        def api_get(path, version = "v1")
-           with_catch_error(http_api_get!(base_url, path, version))
+        def api_get(path, headers = {} of String => String, version = "v1", )
+           with_catch_error(http_api_get!(base_url, path, headers, version))
         end
 
         def api_post(path, body = {} of String => String, headers = {} of String => String, version = "v1")

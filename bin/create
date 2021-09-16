@@ -26,5 +26,6 @@ def insert_content(file_path, target, content)
 end
 
 insert_content("#{root}/commands/parser.cr", 'private def parse(string : String)', "#{"\t" * 3}return_found(@#{name}_commands.as(#{name_cap}).parse(string))")
-insert_content("#{root}/commands/props.cr", 'module Props', "#{"\t" * 2}property #{name}_commands : #{name_cap} | Nil")
+insert_content("#{root}/commands/init.cr", 'macro properties', "#{"\t" * 2}property #{name}_commands : #{name_cap}")
+insert_content("#{root}/commands/init.cr", 'macro initialize_commands', "#{"\t" * 2}@#{name}_commands = #{name_cap}.new")
 
